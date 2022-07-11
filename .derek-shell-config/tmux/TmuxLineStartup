@@ -1,0 +1,22 @@
+# This tmux statusbar config was created by tmuxline.vim
+# on Thu, 28 May 2020. But several additions have been added since then.
+
+set -g status-justify "left"
+set -g status "on"
+set -g status-left-style "none"
+set -g message-command-style "fg=colour255,bg=colour238"
+set -g status-right-style "none"
+set -g pane-active-border-style "fg=colour190"
+set -g status-style "none,bg=colour234"
+set -g message-style "fg=colour255,bg=colour238"
+set -g pane-border-style "fg=colour238"
+set -g status-right-length "100"
+set -g status-left-length "100"
+setw -g window-status-activity-style "none"
+setw -g window-status-separator ""
+setw -g window-status-style "none,fg=colour85,bg=colour234"
+set -g status-left "#[fg=colour17,bg=colour190] #S #[fg=colour190,bg=colour234,nobold,nounderscore,noitalics] #{prefix_highlight}"
+wg_is_keys_off="#[fg=$color_light,bg=$color_window_off_indicator]#([ $(tmux show-option -qv key-table) = 'off' ] && echo 'OFF')#[default]"
+set -g status-right "#{pomodoro_status}$wg_is_keys_off#[fg=colour239,bg=colour234,nobold,nounderscore,noitalics]#[fg=colour255,bg=colour238] %Y-%m-%d < %I:%M #[fg=colour190,bg=colour238,nobold,nounderscore,noitalics]#[fg=colour17,bg=colour190]#{?window_zoomed_flag,🔍,}"
+setw -g window-status-format "#[fg=colour85,bg=colour234] #I >#[fg=colour85,bg=colour234] #W "
+setw -g window-status-current-format "#[fg=colour234,bg=colour238,nobold,nounderscore,noitalics]#[fg=colour255,bg=colour238] #I >#[fg=colour255,bg=colour238] #W #[fg=colour238,bg=colour234,nobold,nounderscore,noitalics]"

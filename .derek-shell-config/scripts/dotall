@@ -1,0 +1,15 @@
+#!/bin/bash
+
+dot() {
+	/usr/bin/git --git-dir="$HOME/.cfg/" --work-tree="$HOME" "$@"
+}
+
+# Move to the home directory
+cd ~/ || exit
+
+# Get the file we want to open
+alldotfiles="$(dot ls-tree HEAD -r --full-name --full-tree | awk 'BEGIN{ORS=" "}{print $4}')"
+
+# Open all the files, do not quote this variable as it will mean we are looking
+# for one file with an incredibly long name
+nvim "$alldotfiles"

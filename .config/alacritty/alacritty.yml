@@ -1,0 +1,14 @@
+# Font configuration (changes require restart)
+env:
+  # Needed for tmux color themes in alacritty 
+  TERM: xterm-256color
+font:
+  # The size to use.
+  size: 12
+  normal:
+    family: Hack
+    # Style can be specified to pick a specific face.
+    style: Regular
+    # Install fonts on Linux by moving .ttf files to ~/.local/share/fonts/
+    # To check fonts install on Linux run fc-list
+    

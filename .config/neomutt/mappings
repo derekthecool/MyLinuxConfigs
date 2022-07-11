@@ -1,0 +1,42 @@
+# Vim like binds
+# bind pager l open-mail
+# bind pager h quit
+#
+bind pager l view-attachments
+bind index l display-message
+bind browser l select-entry
+bind index h noop
+
+#Goal to set J/K to line up and down in email reader view
+
+# bind browser h goto-parent
+
+bind index D delete-message
+bind index U undelete-message
+# bind index L limit
+
+bind attach,index,pager,browser \CD next-page
+bind attach,index,pager,browser \CU previous-page
+# bind pager,browser gg top
+# bind pager,browser G bottom
+bind attach,index g first-entry
+bind attach,index G last-entry
+bind index,pager A group-reply                    # Reply all
+
+# Sidebar binds
+bind index,pager \CP sidebar-prev                 # Ctrl-n to select next folder
+bind index,pager \CN sidebar-next                 # Ctrl-p to select previous folder
+bind index,pager \CI sidebar-open                 # Ctrl-o to open selected folder
+bind index,pager \CB sidebar-toggle-visible       # Ctrl-b to toggle visibility of the sidebar
+
+
+# bind pager l view-attachments
+# bind index D delete-message
+# bind index U undelete-message
+# bind index L limit
+# bind index h noop
+# bind index l display-message
+# bind browser h goto-parent
+# bind browser l select-entry
+# bind index,pager,browser d half-down
+# bind index,pager,browser u half-up

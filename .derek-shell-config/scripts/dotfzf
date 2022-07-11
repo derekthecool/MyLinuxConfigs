@@ -1,0 +1,20 @@
+#!/bin/bash
+
+dot(){
+  /usr/bin/git --git-dir="$HOME/.cfg/" --work-tree="$HOME" "$@"
+}
+
+# Move to the home directory
+cd ~/ || exit
+
+# Get the file we want to open
+fileToOpen="$(dot ls-tree HEAD -r --full-name --full-tree | awk '{print $4}' | fzf --preview='bat --style=numbers --color=always {}')"
+echo "$fileToOpen"
+
+# If no file is chosen then exit
+if [[ -z "$fileToOpen" ]]; then
+  exit 1
+fi
+
+# Open the file
+nvim "$fileToOpen"

@@ -1,0 +1,47 @@
+# My neomutt config
+
+# Read the encrypted passwords
+source "gpg -d ~/.config/neomutt/passwords.gpg |"
+
+# Color configuration file
+source ~/.config/neomutt/colors
+
+# Command mapping file
+source ~/.config/neomutt/mappings
+
+# Neomutt macros
+source ~/.config/neomutt/macros
+
+# Setup with a Gmail account
+set imap_user="name@email.com"
+set realname="Derek Lomax"
+set from="name@email"
+set ssl_starttls=yes
+set smtp_url="smtp://name@email.com@smtp.gmail.com:587"
+set smtp_authenticators="gssapi:login"
+# set smtp_pass = "" # Set in ~/.config/neomutt/passwords.gpg
+# set imap_pass="" # Set in ~/.config/neomutt/passwords.gpg
+set folder=imaps://imap.gmail.com/
+set spoolfile=+INBOX
+set record="+[Gmail]/Sent Mail"
+set postponed="+[Gmail]/Drafts"
+
+# https://www.neomutt.org/guide/reference search sleep_time for additional info
+set sleep_time=0 # be faster
+set beep=no # no beep sound
+auto_view text/html
+set sort=reverse-date   # default sorting by date
+# When sorting by threads, this variable controls how threads are sorted
+# in relation to other threads, and how the branches of the thread trees are sorted.
+set sort_aux=last-date-received
+set date_format = "%d.%m.%Y %H:%M"
+# Index page format. Default "%4C %Z %{%b %d} %-15.15L (%?l?%4l&%4c?) %s"
+set index_format="%4C %Z %{%b %d %R} %-15.15L (%?l?%4l&%4c?) %s"
+
+set sidebar_visible
+set sidebar_format="%B%?F? [%F]?%* %?N?%N/?%S"
+set mail_check_stats
+set edit_headers=yes
+
+# You can use any gmail imap mailboxes
+mailboxes =INBOX =[Gmail]/Sent\ Mail =[Gmail]/Drafts =[Gmail]/Spam =[Gmail]/Trash

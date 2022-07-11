@@ -1,0 +1,23 @@
+# Neomutt Macros
+
+# Use pandoc with docker, not working great
+# https://to.mw/posts/neomutt-markdown-email#macro-description
+macro compose m \
+"<enter-command>set pipe_decode<enter>\
+<pipe-message>docker run -i -v /tmp:/tmp --rm pandoc/core -f gfm -t plain -o /tmp/msg.txt<enter>\
+<pipe-message>docker run -i -v /tmp:/tmp -v ~/.config/neomutt/templates/email.html:/mutt/templates/email.html\
+--rm pandoc/core -s -f gfm --self-contained -o /tmp/msg.html --resource-path /mutt/templates/ --template email<enter>\
+<enter-command>unset pipe_decode<enter>\
+<attach-file>/tmp/msg.txt<enter>\
+<attach-file>/tmp/msg.html<enter>\
+<tag-entry><previous-entry><tag-entry><group-alternatives>" \
+"Convert markdown to HTML5 and plaintext alternative content types"
+
+# Use pandoc without docker, works but attaches both text into one
+# https://unix.stackexchange.com/questions/108485/send-email-written-in-markdown-using-mutt
+macro compose ,m \
+"<enter-command>set pipe_decode<enter>\
+<pipe-message>pandoc -f gfm -t plain -o /tmp/msg.txt<enter>\
+<pipe-message>pandoc -s -f gfm -t html5 -o /tmp/msg.html<enter>\
+<enter-command>unset pipe_decode<enter>a^U/tmp/msg.txt\n^Da^U/tmp/msg.html\n^D^T^Utext/html; charset=utf-8\n=DTT&d^U\n" \
+"Convert markdown gfm to HTML and plain" 

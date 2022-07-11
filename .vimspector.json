@@ -1,0 +1,112 @@
+{
+  "$schema": "https://puremourning.github.io/vimspector/schema/vimspector.schema.json#",
+  "configurations": {
+    "Bash: Launch": {
+      "adapter": "vscode-bash",
+      "configuration": {
+        "request": "launch",
+        "program": "${file}",
+        "args": ["*${CommandLineArgs}"],
+        "stopOnEntry": true,
+        "console": "integratedTerminal",
+        "cwd": "${fileDirname}"
+      }
+    },
+    "Javascript: Launch": {
+      "adapter": "vscode-node",
+      "configuration": {
+        "request": "launch",
+        "protocol": "auto",
+        "stopOnEntry": true,
+        "console": "integratedTerminal",
+        "program": "${file}",
+        "cwd": "${fileDirname}"
+      }
+    },
+    "Python: Launch": {
+      "adapter": "debugpy",
+      "configuration": {
+        "name": "Python: Launch current file",
+        "type": "python",
+        "request": "launch",
+        "python": "/usr/bin/python3",
+        "stopOnEntry": true,
+        "console": "externalTerminal",
+        "debugOptions": [],
+        "cwd": "${cwd}",
+        "program": "${file}"
+      }
+    },
+    "C: Launch": {
+      "adapter": "vscode-cpptools",
+      "breakpoints": {
+        "exception": {
+          "cpp_throw": "Y",
+          "cpp_catch": "Y"
+        }
+      },
+      "configuration": {
+        "request": "launch",
+        "args": [],
+        "program": "${cwd}/build/${fileBasenameNoExtension}",
+        "environment": [],
+        "externalConsole": true,
+        "stopAtEntry": true,
+        "MIMode": "gdb"
+      }
+    },
+    "Csharp: Launch": {
+      "adapter": "netcoredbg",
+      "filetypes": ["csharp", "cs"],
+      "variables": {
+        "ProjectName": {
+          "shell": ["basename", "$$(dirname ${fileDirname}"]
+        }
+      },
+      "default": true,
+      "configuration": {
+        "request": "launch",
+        "program": "${fileDirname}/bin/Debug/net6.0/${ProjectName}.dll",
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${cwd}"
+      }
+    },
+    "lua": {
+      "adapter": "lua-local",
+      "configuration": {
+        "request": "launch",
+        "type": "lua-local",
+        "cwd": "${workspaceFolder}",
+        "program": {
+          "lua": "lua",
+          "file": "${file}"
+        }
+      }
+    },
+    "luajit": {
+      "adapter": "lua-local",
+      "configuration": {
+        "request": "launch",
+        "type": "lua-local",
+        "cwd": "${workspaceFolder}",
+        "program": {
+          "lua": "luajit",
+          "file": "${file}"
+        }
+      }
+    },
+    "love": {
+      "adapter": "lua-local",
+      "configuration": {
+        "request": "launch",
+        "type": "lua-local",
+        "cwd": "${workspaceFolder}",
+        "program": {
+          "command": "love"
+        },
+        "args": ["${workspaceFolder}"]
+      }
+    }
+  }
+}
