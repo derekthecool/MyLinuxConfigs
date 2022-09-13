@@ -27,6 +27,8 @@ dot add ~/.config/asciinema/config  # ASCIINEMA
 dot add ~/.config/starship.toml     # Prompt Theme
 dot add ~/.config/zathura
 dot add ~/.config/tmuxinator        # Tmux(inator) session templates
+dot add ~/.config/lftp
+
 
 #TMUX
 dot add ~/.tmux.conf

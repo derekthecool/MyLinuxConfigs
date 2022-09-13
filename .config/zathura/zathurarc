@@ -25,39 +25,75 @@ set scroll-step 100
 set zoom-min 10
 set guioptions ""
 
-# zathurarc-dark
+# zathurarc-dark (a bit too dark)
 # -----------------------------------------------------------------------------
-set font "inconsolata 15"
-set default-bg "#101010" #00
-set default-fg "#F7F7F6" #01
+# set font "inconsolata 15"
+# set default-bg "#101010" #00
+# set default-fg "#F7F7F6" #01
+#
+# set statusbar-fg "#B0B0B0" #04
+# set statusbar-bg "#202020" #01
+#
+# set inputbar-bg "#151515" #00 currently not used
+# set inputbar-fg "#FFFFFF" #02
+#
+# set notification-error-bg "#AC4142" #08
+# set notification-error-fg "#151515" #00
+#
+# set notification-warning-bg "#AC4142" #08
+# set notification-warning-fg "#151515" #00
+#
+# set highlight-color "#F4BF75" #0A
+# set highlight-active-color "#6A9FB5" #0D
+#
+# set completion-highlight-fg "#151515" #02
+# set completion-highlight-bg "#90A959" #0C
+#
+# set completion-bg "#303030" #02
+# set completion-fg "#E0E0E0" #0C
+#
+# set notification-bg "#90A959" #0B
+# set notification-fg "#151515" #00
+#
+# set recolor "true"
+# set recolor-lightcolor "#000000" #00
+# set recolor-darkcolor "#E0E0E0" #06
+# set recolor-reverse-video "true"
+# set recolor-keephue "true"
 
-set statusbar-fg "#B0B0B0" #04
-set statusbar-bg "#202020" #01
+# Base16 Atelier Sulphurpool
+# Author: Bram de Haan (http://atelierbramdehaan.nl)
 
-set inputbar-bg "#151515" #00 currently not used
-set inputbar-fg "#FFFFFF" #02
+set default-bg                  "#202746"
+set default-fg                  "#293256"
 
-set notification-error-bg "#AC4142" #08
-set notification-error-fg "#151515" #00
+set statusbar-fg                "#898ea4"
+set statusbar-bg                "#5e6687"
 
-set notification-warning-bg "#AC4142" #08
-set notification-warning-fg "#151515" #00
+set inputbar-bg                 "#202746"
+set inputbar-fg                 "#f5f7ff"
 
-set highlight-color "#F4BF75" #0A
-set highlight-active-color "#6A9FB5" #0D
+set notification-bg             "#202746"
+set notification-fg             "#f5f7ff"
 
-set completion-highlight-fg "#151515" #02
-set completion-highlight-bg "#90A959" #0C
+set notification-error-bg       "#202746"
+set notification-error-fg       "#c94922"
 
-set completion-bg "#303030" #02
-set completion-fg "#E0E0E0" #0C
+set notification-warning-bg     "#202746"
+set notification-warning-fg     "#c94922"
 
-set notification-bg "#90A959" #0B
-set notification-fg "#151515" #00
+set highlight-color             "#c08b30"
+set highlight-active-color      "#3d8fd1"
 
-set recolor "true"
-set recolor-lightcolor "#000000" #00
-set recolor-darkcolor "#E0E0E0" #06
-set recolor-reverse-video "true"
-set recolor-keephue "true"
+set completion-bg               "#293256"
+set completion-fg               "#3d8fd1"
+
+set completion-highlight-fg     "#f5f7ff"
+set completion-highlight-bg     "#3d8fd1"
+
+set recolor-lightcolor          "#202746"
+set recolor-darkcolor           "#dfe2f1"
+
+set recolor                     "true"
+set recolor-keephue             "true"
 # -----------------------------------------------------------------------------
