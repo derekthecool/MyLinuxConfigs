@@ -98,18 +98,8 @@ export PATH=/$HOME/.cargo/bin:$PATH
 export PATH=/$HOME/.local/bin:$PATH
 # Set PATH for yarn global binaries
 export PATH=/$HOME/.yarn/bin:$PATH
-
-# fnm
-# export PATH=/$HOME/.local/bin:$PATH
-# eval "`fnm env`"
-#
-export DOTNET_CLI_TELEMETRY_OPTOUT=1
-
-# Uncomment zprof to see a zsh startup diagnostic
-# zprof
-
-alias luamake=/home/derek/tools/lua-language-server/3rd/luamake/luamake
-export PATH="$HOME/tools/lua-language-server/bin/Linux:$PATH"
+# Set path for dotnet tools
+export PATH=/$HOME/.dotnet/tools:$PATH
 
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
