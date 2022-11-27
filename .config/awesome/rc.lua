@@ -6,17 +6,21 @@ pcall(require, 'luarocks.loader')
 local gears = require('gears')
 local awful = require('awful')
 require('awful.autofocus')
+
 -- Widget and layout library
 local wibox = require('wibox')
+
 -- Theme handling library
 local beautiful = require('beautiful')
+
 -- Notification library
 local naughty = require('naughty')
 local menubar = require('menubar')
 local hotkeys_popup = require('awful.hotkeys_popup')
+
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
-require('awful.hotkeys_popup.keys')
+-- require('awful.hotkeys_popup.keys')
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -55,7 +59,7 @@ beautiful.init(gears.filesystem.get_themes_dir() .. 'default/theme.lua')
 
 -- This is used later as the default terminal and editor to run.
 Terminal = 'alacritty'
-Editor = os.getenv('EDITOR') or 'vi'
+Editor = os.getenv('EDITOR') or 'nvim'
 EditorCommand = Terminal .. ' -e ' .. Editor
 
 -- Default modkey.
@@ -309,7 +313,9 @@ Globalkeys = gears.table.join(
         awful.spawn(Terminal)
     end, { description = 'open a terminal', group = 'launcher' }),
 
-    awful.key({ ModKey, 'Control' }, 'r', awesome.restart, { description = 'reload awesome', group = 'awesome' }),
+    -- awful.key({ ModKey, 'Shift' }, 'Return', Terminal .. ' -e man awesome', { description = 'lua man page', group = 'launcher' }),
+
+    awful.key({ ModKey }, 'q', awesome.restart, { description = 'reload awesome', group = 'awesome' }),
 
     awful.key({ ModKey, 'Shift' }, 'q', awesome.quit, { description = 'quit awesome', group = 'awesome' }),
 
@@ -355,7 +361,7 @@ Globalkeys = gears.table.join(
 
     -- Rofi program launcher
     awful.key({ ModKey }, 'r', function()
-        awful.util.spawn({ 'rofi -show run' })
+        awful.spawn('rofi -show run')
     end, { description = 'run rofi', group = 'launcher' }),
 
     -- TODO: 2022-11-26 add back key for lua prompt
@@ -545,9 +551,21 @@ awful.rules.rules = {
     -- Add titlebars to normal clients and dialogs
     { rule_any = { type = { 'normal', 'dialog' } }, properties = { titlebars_enabled = true } },
 
-    -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
+    -- First tag: web
+    { rule = { class = 'Firefox' }, properties = { screen = 1, tag = 'Web' } },
+    { rule = { class = 'Vieb' }, properties = { screen = 1, tag = 'Web' } },
+
+    -- Second tag: terminal
+    { rule = { class = 'Alacritty' }, properties = { screen = 1, tag = 'Terminal' } },
+
+    -- Third tag: chat
+
+    -- Forth tag: Plover stenography. Send everything except Plover lookup to Plover tag
+    {
+        rule_any = { class = { 'Plover' } },
+        except_any = { name = { 'Plover: Lookup' } },
+        properties = { screen = 1, tag = 'Plover' },
+    },
 }
 -- }}}
 
