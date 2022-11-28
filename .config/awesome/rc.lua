@@ -10,6 +10,9 @@ require('awful.autofocus')
 -- Widget and layout library
 local wibox = require('wibox')
 
+-- Extra package for widgets by community
+local vicious = require('vicious')
+
 -- Theme handling library
 local beautiful = require('beautiful')
 
@@ -226,6 +229,47 @@ awful.screen.connect_for_each_screen(function(s)
         buttons = tasklist_buttons,
     })
 
+    -- My custom widgets to be loaded into the wibox
+    local memwidget = wibox.widget.textbox()
+    vicious.cache(vicious.widgets.mem)
+    vicious.register(memwidget, vicious.widgets.mem, '$1 ($2MiB/$3MiB)', 13)
+
+    local batwidget = wibox.widget.progressbar()
+
+    -- Create wibox with batwidget
+    local batbox = wibox.layout.margin(
+        wibox.widget({
+            {
+                max_value = 1,
+                widget = batwidget,
+                border_width = 0.5,
+                border_color = '#000000',
+                color = {
+                    type = 'linear',
+                    from = { 0, 0 },
+                    to = { 0, 30 },
+                    stops = { { 0, '#AECF96' }, { 1, '#FF5656' } },
+                },
+            },
+            forced_height = 10,
+            forced_width = 8,
+            direction = 'east',
+            color = beautiful.fg_widget,
+            layout = wibox.container.rotate,
+        }),
+        1,
+        1,
+        3,
+        3
+    )
+
+    -- Register battery widget
+    vicious.register(batwidget, vicious.widgets.bat, '$2', 61, 'BAT0')
+
+    local datewidget = wibox.widget.textbox()
+    vicious.register(datewidget, vicious.widgets.date, '%I:%M:%S %p')
+    -- End custom widgets
+
     -- Create the wibox
     s.mywibox = awful.wibar({ position = 'top', screen = s })
 
@@ -243,7 +287,10 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             MyKeyboardLayout,
             wibox.widget.systray(),
-            MyTextClock,
+            -- memwidget,
+            batbox,
+            datewidget,
+            -- MyTextClock,
             s.mylayoutbox,
         },
     })
@@ -633,8 +680,9 @@ end)
 -- }}}
 
 -- Gaps
-beautiful.useless_gap = 1
+beautiful.useless_gap = 3
 
 -- Startup
---awful.spawn.with_shell("nitrogen --set-zoom-fill --random ~/MyDesktopBackgrounds/")
---awful.spawn.with_shell("picom -b")
+-- use images from Derek Taylor (DT) : git clone https://gitlab.com/dwt1/wallpapers.git ~/MyDesktopBackgrounds
+awful.spawn.with_shell("nitrogen --set-zoom-fill --random ~/MyDesktopBackgrounds/")
+awful.spawn.with_shell("picom -b")
