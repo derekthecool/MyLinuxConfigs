@@ -51,8 +51,8 @@ if [[ $(uname -r) == *"microsoft"* ]]; then
   export PATH="$PATH:$HOME/.derek-shell-config/scripts/distro_specific/wsl"
 
   # Dotnet 6 preview
-  export PATH="$PATH:$HOME/dotnet"
-  export DOTNET_ROOT="$HOME/dotnet"
+  # export PATH="$PATH:$HOME/dotnet"
+  # export DOTNET_ROOT="$HOME/dotnet"
 fi
 
 #Raspberry PI Specific Setup
