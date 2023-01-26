@@ -1077,12 +1077,13 @@ xplr.config.modes.builtin.default = {
                     'FocusNext',
                 },
             },
-            ['enter'] = {
-                help = 'quit with result',
-                messages = {
-                    'PrintResultAndQuit',
-                },
-            },
+            -- 2023-01-26 really horrible mode!
+            -- ['enter'] = {
+            --     help = 'quit with result',
+            --     messages = {
+            --         'PrintResultAndQuit',
+            --     },
+            -- },
             ['f'] = {
                 help = 'filter',
                 messages = {
@@ -1222,6 +1223,8 @@ xplr.config.modes.builtin.default.key_bindings.on_key['j'] =
 xplr.config.modes.builtin.default.key_bindings.on_key['k'] = xplr.config.modes.builtin.default.key_bindings.on_key['up']
 xplr.config.modes.builtin.default.key_bindings.on_key['l'] =
     xplr.config.modes.builtin.default.key_bindings.on_key['right']
+xplr.config.modes.builtin.default.key_bindings.on_key['enter'] =
+    xplr.config.modes.builtin.default.key_bindings.on_key['right']
 
 -- https://xplr.dev/en/awesome-hacks?highlight=bookmark#bookmark
 -- set bookmark
@@ -1232,7 +1235,7 @@ xplr.config.modes.builtin.default.key_bindings.on_key.m = {
             BashExecSilently0 = [===[
         PTH="${XPLR_FOCUS_PATH:?}"
         PTH_ESC=$(printf %q "$PTH")
-        if echo "${PTH:?}" >> "${XPLR_SESSION_PATH:?}/bookmarks"; then
+        if echo "${PTH:?}" >> "${HOME}/bookmarks"; then
           "$XPLR" -m 'LogSuccess: %q' "$PTH_ESC added to bookmarks"
         else
           "$XPLR" -m 'LogError: %q' "Failed to bookmark $PTH_ESC"
@@ -1248,7 +1251,7 @@ xplr.config.modes.builtin.default.key_bindings.on_key['`'] = {
     messages = {
         {
             BashExec0 = [===[
-        PTH=$(cat "${XPLR_SESSION_PATH:?}/bookmarks" | fzf --no-sort)
+        PTH=$(cat "${HOME}/bookmarks" | fzf --no-sort)
         PTH_ESC=$(printf %q "$PTH")
         if [ "$PTH" ]; then
           "$XPLR" -m 'FocusPath: %q' "$PTH"
@@ -1257,6 +1260,105 @@ xplr.config.modes.builtin.default.key_bindings.on_key['`'] = {
         },
     },
 }
+
+-- With `export XPLR_BOOKMARK_FILE="$HOME/bookmarks"`
+-- Bookmark: mode binding
+-- xplr.config.modes.builtin.default.key_bindings.on_key["b"] = {
+--   help = "bookmark mode",
+--   messages = {
+--     { SwitchModeCustom = "bookmark" },
+--   },
+-- }
+-- xplr.config.modes.custom.bookmark = {
+--   name = "bookmark",
+--   key_bindings = {
+--     on_key = {
+--       m = {
+--         help = "bookmark dir",
+--         messages = {
+--           {
+--             BashExecSilently0 = [[
+--               PTH="${XPLR_FOCUS_PATH:?}"
+--               if [ -d "${PTH}" ]; then
+--                 PTH="${PTH}"
+--               elif [ -f "${PTH}" ]; then
+--                 PTH=$(dirname "${PTH}")
+--               fi
+--               PTH_ESC=$(printf %q "$PTH")
+--               if echo "${PTH:?}" >> "${XPLR_BOOKMARK_FILE:?}"; then
+--                 "$XPLR" -m 'LogSuccess: %q' "$PTH_ESC added to bookmarks"
+--               else
+--                 "$XPLR" -m 'LogError: %q' "Failed to bookmark $PTH_ESC"
+--               fi
+--             ]],
+--           },
+--           "PopMode",
+--         },
+--       },
+--       g = {
+--         help = "go to bookmark",
+--         messages = {
+--           {
+--             BashExec0 = [===[
+--               PTH=$(cat "${XPLR_BOOKMARK_FILE:?}" | fzf --no-sort)
+--               if [ "$PTH" ]; then
+--                 "$XPLR" -m 'FocusPath: %q' "$PTH"
+--               fi
+--             ]===],
+--           },
+--           "PopMode",
+--         },
+--       },
+--       d = {
+--         help = "delete bookmark",
+--         messages = {
+--           {
+--             BashExec0 = [[
+--               PTH=$(cat "${XPLR_BOOKMARK_FILE:?}" | fzf --no-sort)
+--               sd "$PTH\n" "" "${XPLR_BOOKMARK_FILE:?}"
+--             ]],
+--           },
+--           "PopMode",
+--         },
+--       },
+--       esc = {
+--         help = "cancel",
+--         messages = {
+--           "PopMode",
+--         },
+--       },
+--     },
+--   },
+-- }
+
+-- xplr.config.modes.builtin.go_to.key_bindings.on_key.b = {
+--   help = "bookmark jump",
+--   messages = {
+--     "PopMode",
+--     { BashExec0 = [===[
+--         field='\(\S\+\s*\)'
+--         esc=$(printf '\033')
+--         N="${esc}[0m"
+--         R="${esc}[31m"
+--         G="${esc}[32m"
+--         Y="${esc}[33m"
+--         B="${esc}[34m"
+--         pattern="s#^${field}${field}${field}${field}#$Y\1$R\2$N\3$B\4$N#"
+--         PTH=$(sed 's#: # -> #' "$PATHMARKS_FILE"| nl| column -t \
+--         | gsed "${pattern}" \
+--         | fzf --ansi \
+--             --height '40%' \
+--             --preview="echo {}|sed 's#.*->  ##'| xargs exa --color=always" \
+--             --preview-window="right:50%" \
+--         | sed 's#.*->  ##')
+--         if [ "$PTH" ]; then
+--           "$XPLR" -m 'ChangeDirectory: %q' "$PTH"
+--         fi
+--       ]===]
+--     },
+--   }
+-- }
+
 
 -- The builtin debug error mode.
 --

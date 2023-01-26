@@ -101,6 +101,8 @@ export PATH=/$HOME/.yarn/bin:$PATH
 # Set path for dotnet tools
 export PATH=/$HOME/.dotnet/tools:$PATH
 
+# bookmark file for xplr
+touch ~/bookmarks
+
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
-
