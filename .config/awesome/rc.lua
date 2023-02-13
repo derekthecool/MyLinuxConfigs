@@ -225,14 +225,24 @@ awful.screen.connect_for_each_screen(function(s)
         buttons = tasklist_buttons,
     })
 
+    local docker_widget = require('awesome-wm-widgets.docker-widget.docker')
+
     -- Battery widget
-    local batteryarc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
+    local batteryarc_widget = require('awesome-wm-widgets.batteryarc-widget.batteryarc')
+    volume_widget = require('awesome-wm-widgets.volume-widget.volume')
+    local calendar_widget = require('awesome-wm-widgets.calendar-widget.calendar')
+    -- ...
+    -- Create a textclock widget
+    mytextclock = wibox.widget.textclock()
+    local cw = calendar_widget()
+    mytextclock:connect_signal('button::press', function(_, _, _, button)
+        if button == 1 then
+            cw.toggle()
+        end
+    end)
 
-    -- Register battery widget
-    vicious.register(batwidget, vicious.widgets.bat, '$2', 61, 'BAT0')
-
-    local datewidget = wibox.widget.textbox()
-    vicious.register(datewidget, vicious.widgets.date, '%I:%M:%S %p')
+    -- local datewidget = wibox.widget.textbox()
+    -- vicious.register(datewidget, vicious.widgets.date, '%I:%M:%S %p')
 
     -- Pacman Widget
     local pacwidget = wibox.widget.textbox()
@@ -249,7 +259,6 @@ awful.screen.connect_for_each_screen(function(s)
             -- str = str .. line .. '\n'
             count = count + 1
             print(line)
-            
         end
         pacwidget_t:set_text(str)
         output:close()
@@ -278,9 +287,9 @@ awful.screen.connect_for_each_screen(function(s)
             MyKeyboardLayout,
             wibox.widget.systray(),
             batteryarc_widget(),
-            pacwidget,
-            datewidget,
-            -- MyTextClock,
+            volume_widget(),
+            docker_widget(),
+            mytextclock,
             s.mylayoutbox,
         },
     })
@@ -397,9 +406,20 @@ Globalkeys = gears.table.join(
     end, { description = 'restore minimized', group = 'client' }),
 
     -- Rofi program launcher
-    awful.key({ ModKey }, 'r', function()
+    awful.key({ ModKey }, 'i', function()
         awful.spawn('rofi -show run')
     end, { description = 'run rofi', group = 'launcher' }),
+
+    -- TODO: find why Plover key SKWHUFRB and SKWHEFRB are not working
+    awful.key({}, 'XF86AudioRaiseVolume', function()
+        volume_widget:inc(5)
+    end),
+    awful.key({}, 'XF86AudioLowerVolume', function()
+        volume_widget:dec(5)
+    end),
+    awful.key({}, 'XF86AudioMute', function()
+        volume_widget:toggle()
+    end),
 
     -- TODO: 2022-11-26 add back key for lua prompt
     -- awful.key({ modkey }, 'x', function()
