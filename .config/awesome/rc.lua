@@ -190,11 +190,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag(
-        { 'Web', 'Terminal', 'Chat', 'Plover', 'Docs', 'Device', 'Plus 1', 'Plus 2', 'Plus 3' },
-        s,
-        awful.layout.layouts[1]
-    )
+    awful.tag({ 'Web', 'Terminal', 'Chat', 'Plover', 'Docs', 'Device', '7', '8', '9' }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -229,45 +225,39 @@ awful.screen.connect_for_each_screen(function(s)
         buttons = tasklist_buttons,
     })
 
-    -- My custom widgets to be loaded into the wibox
-    local memwidget = wibox.widget.textbox()
-    vicious.cache(vicious.widgets.mem)
-    vicious.register(memwidget, vicious.widgets.mem, '$1 ($2MiB/$3MiB)', 13)
-
-    local batwidget = wibox.widget.progressbar()
-
-    -- Create wibox with batwidget
-    local batbox = wibox.layout.margin(
-        wibox.widget({
-            {
-                max_value = 1,
-                widget = batwidget,
-                border_width = 0.5,
-                border_color = '#000000',
-                color = {
-                    type = 'linear',
-                    from = { 0, 0 },
-                    to = { 0, 30 },
-                    stops = { { 0, '#AECF96' }, { 1, '#FF5656' } },
-                },
-            },
-            forced_height = 10,
-            forced_width = 8,
-            direction = 'east',
-            color = beautiful.fg_widget,
-            layout = wibox.container.rotate,
-        }),
-        1,
-        1,
-        3,
-        3
-    )
+    -- Battery widget
+    local batteryarc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
 
     -- Register battery widget
     vicious.register(batwidget, vicious.widgets.bat, '$2', 61, 'BAT0')
 
     local datewidget = wibox.widget.textbox()
     vicious.register(datewidget, vicious.widgets.date, '%I:%M:%S %p')
+
+    -- Pacman Widget
+    local pacwidget = wibox.widget.textbox()
+
+    local pacwidget_t = awful.tooltip({ objects = { pacwidget } })
+
+    vicious.register(pacwidget, vicious.widgets.pkg, function(widget, args)
+        local io = { popen = io.popen }
+        local output = io.popen('pacman -Qu')
+        local str = ''
+
+        local count = 0
+        for line in output:lines() do
+            -- str = str .. line .. '\n'
+            count = count + 1
+            print(line)
+            
+        end
+        pacwidget_t:set_text(str)
+        output:close()
+        return '|UPDATES: ' .. count .. '|'
+    end, 1, 'Arch')
+
+    --'1800' means check every 30 minutes
+
     -- End custom widgets
 
     -- Create the wibox
@@ -287,8 +277,8 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             MyKeyboardLayout,
             wibox.widget.systray(),
-            -- memwidget,
-            batbox,
+            batteryarc_widget(),
+            pacwidget,
             datewidget,
             -- MyTextClock,
             s.mylayoutbox,
@@ -610,7 +600,7 @@ awful.rules.rules = {
     -- Forth tag: Plover stenography. Send everything except Plover lookup to Plover tag
     {
         rule_any = { class = { 'Plover' } },
-        except_any = { name = { 'Plover: Lookup' } },
+        except_any = { name = { 'Plover: Lookup', 'Plover: Add Translation' } },
         properties = { screen = 1, tag = 'Plover' },
     },
 }
@@ -684,5 +674,5 @@ beautiful.useless_gap = 3
 
 -- Startup
 -- use images from Derek Taylor (DT) : git clone https://gitlab.com/dwt1/wallpapers.git ~/MyDesktopBackgrounds
-awful.spawn.with_shell("nitrogen --set-zoom-fill --random ~/MyDesktopBackgrounds/")
-awful.spawn.with_shell("picom -b")
+awful.spawn.with_shell('nitrogen --set-zoom-fill --random ~/MyDesktopBackgrounds/')
+awful.spawn.with_shell('picom -b')
