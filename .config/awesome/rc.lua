@@ -407,7 +407,7 @@ Globalkeys = gears.table.join(
 
     -- Rofi program launcher
     awful.key({ ModKey }, 'i', function()
-        awful.spawn('rofi -show run')
+        awful.spawn('rofi -show combi -modes combi -combi-modes "window,drun,run"')
     end, { description = 'run rofi', group = 'launcher' }),
 
     -- TODO: find why Plover key SKWHUFRB and SKWHEFRB are not working
