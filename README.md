@@ -1,5 +1,8 @@
 # Dereks Linux Configuration Files
 
+**This repo has been archived** in favor of https://github.com/derekthecool/MyCrossPlatformDotfiles
+which is a cross platform dotfile setup.
+
 This repository is MY Linux Distro! I primarily live in the terminal for
 everything. Coding, journaling, email, web browsing... the list goes on.
 
